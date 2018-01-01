@@ -4,7 +4,7 @@
 __author__ = 'Flynn'
 __time__ = '2017-12-30'
 
-获取哔哩哔哩视频弹幕作成词云
+获取哔哩哔哩(bilibili)视频弹幕作成词云
 """
 import os,sys
 import requests
@@ -17,7 +17,7 @@ from PIL import Image
 from wordcloud import WordCloud,STOPWORDS,ImageColorGenerator
 import matplotlib.pyplot as plt
 
-id = "av17231855" or sys.argv[1]
+id = "av17231855"
 #弹幕文件链接
 video_format = "https://www.bilibili.com/video/{}/"
 danmu_format = "http://comment.bilibili.com/{}.xml"
@@ -58,16 +58,16 @@ def cut_text(text):
 #制作词云图片
 def word_cloud(words):
     color_mask = np.array(Image.open(os.path.join(os.path.dirname(__file__), mask_file)))
-    wc = WordCloud(font_path=os.path.join(os.path.dirname(__file__), font_file),
+    wc = WordCloud(font_path=os.path.join(os.path.dirname(__file__), font_file),#字体文件的路径
                    background_color='white',
-                   mask=color_mask,
-                   stopwords=STOPWORDS.add("said"),
-                   max_words=500,
-                   max_font_size=100)
-    wc.generate(words)
-    image_colors = ImageColorGenerator(color_mask)
-    word_cloud = wc.recolor(color_func=image_colors)
-    wc.to_file(save_file)
+                   mask=color_mask,                 #设置背景图片
+                   stopwords=STOPWORDS.add("said"),#屏蔽词
+                   max_words=500,                   #最大词数
+                   max_font_size=100)               #字体最大值
+    wc.generate(words)#从文本中生成词云
+    image_colors = ImageColorGenerator(color_mask)  #从背景图片生成颜色值
+    word_cloud = wc.recolor(color_func=image_colors)#现有输出重新着色
+    wc.to_file(save_file)#输出到文件
     return word_cloud
 
 #显示图片
