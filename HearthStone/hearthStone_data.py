@@ -99,28 +99,41 @@ class HearthstoneClass(object):
         print(len(data.get("series").get("data").get("ALL")))
         return data
 
-    def getArenaWinrateByClassByHsreplay(self,db):
+    def getArenaWinrateList(self):
         INDEX_URL = "https://hsreplay.net/"
         now = datetime.datetime.now().replace(hour=0,minute=0,second=0,microsecond=0)
-        list = db["arena_winrate"].find({"date": {"$gte":now+datetime.timedelta(days=-1)}})
+        list = self.findArenaWinrate(now)
         if list.count()==0:
-            print("up")
-            list = []
-            html = getHtmlByGetUrl(INDEX_URL)
-            soup = BeautifulSoup(html, "lxml")
-            tile_list = soup.select("#arena a.class-tile")
-            for tile in tile_list:
-                tile_obj = {}
-                tile_obj["class_name"] = tile.select(".tile-title span")[0].get_text()
-                tile_obj["winrate"] = tile["data-winrate"]
-                tile_obj["date"] = now
-                list.append(tile_obj)
-            db["arena_winrate"].remove()
-            db["arena_winrate"].insert(list)
+            list = self.getArenaWinrateListByHsreplay()
+            list = self.updateArenaWinrate(list)
         service_list = []
         for i in list:
             service_list.append({"class_name":i.get("class_name"),"winrate":i.get("winrate")})
         return service_list
+
+    def getArenaWinrateListByHsreplay(self):
+        INDEX_URL = "https://hsreplay.net/"
+        now = datetime.datetime.now().replace(hour=0,minute=0,second=0,microsecond=0)
+        list = []
+        html = getHtmlByGetUrl(INDEX_URL)
+        soup = BeautifulSoup(html, "lxml")
+        tile_list = soup.select("#arena a.class-box")
+        for tile in tile_list:
+            tile_obj = {}
+            tile_obj["class_name"] = tile.select(".box-title span")[0].get_text()
+            tile_obj["winrate"] = tile["data-winrate"]
+            tile_obj["date"] = now
+            list.append(tile_obj)
+        return list
+
+    def findArenaWinrate(self,time):
+        list = self.db["arena_winrate"].find({"date": {"$gte":time+datetime.timedelta(days=-1)}})
+        return list
+
+    def updateArenaWinrate(self,list):
+        self.db["arena_winrate"].remove()
+        self.db["arena_winrate"].insert(list)
+        return list
 
 def getJsonByGetUrl(url):
     headers = {'User-Agent': 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6'}
@@ -151,4 +164,4 @@ if __name__ == '__main__':
     # #card_info = hs.queryCardByName("剑齿追猎者", "all", db, True)
     # print("end")
 
-    print(hs.getArenaWinrateByClassByHsreplay(db))
+    print(hs.getArenaWinrateList())
