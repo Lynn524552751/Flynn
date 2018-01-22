@@ -1,0 +1,20 @@
+<view class="container">
+  <view>
+    <loading wx:if="{{loading}}">正在努力加载中</loading>
+    <template wx:else is="bangumi" data="{{...bangumi}}"/>
+  </view>
+</view>
+
+<template name="bangumi">
+  <view class='tabs'>
+    <block wx:for="{{result}}" wx:for-item="i" wx:key="bangumi_list">
+        <button bindtap="activeTab" data-index="{{index}}">
+          <text> {{i.date}} </text>
+          <text> {{i.week_string}} </text>
+        </button>
+         <block wx:for="{{i.seasons}}" wx:for-item="season" wx:key="season_list">
+          <!-- <text class='bangumi-list'>{{season.pub_time}} : {{season.title}} -- {{season.pub_index}}</text> -->
+        </block> 
+    </block>
+  </view>
+</template>

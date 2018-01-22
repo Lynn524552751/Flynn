@@ -1,0 +1,11 @@
+.tabs {
+  display: flex;
+  flex-direction: row;
+  padding: 40rpx;
+  
+}
+.tabs button{
+  font-size:14px;
+  margin: 0px 5px;
+  line-height:1.55555556;
+}
