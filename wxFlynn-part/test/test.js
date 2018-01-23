@@ -1,51 +1,64 @@
-//weather.js
+//bangumi.js
+const util = require('../../utils/util.js')
 const sysUtil = require('../../utils/sysUtil.js')
 
 Page({
   data: {
-    name : 'Flynn',
-    loading : true,
-    api : {
-      url : 'https://bangumi.bilibili.com/web_api/timeline_global',
+    name: 'bangumi',
+    loading: true,
+    api: {
+      url: 'https://bangumi.bilibili.com/web_api/timeline_global',
     },
-    bangumi : {}
+    bangumi: {},
+    activeId: 1
   },
   onLoad: function () {
-    this.searchList()
+    this.getData()
   },
-  searchList: function () {
+  getData: function () {
+    var data = wx.getStorageSync(this.data.name)
+    if (!data){
+      data = this.loadData()
+      return
+    }
+    var today = sysUtil.dateFormat(new Date(),"M-dd")
+    var today_index = this.getTodayIndex(data.result)
+    if (today_index != -1 && today == data.result[today_index].date) {
+      data.result = data.result.slice(today_index - 1, today_index + 3)
+      data.result = this.setWeekString(data.result)
+      console.log(data)
+    }
+    this.setData({
+      bangumi: data,
+      loading: false
+    })
+  },
+  loadData: function () {
     wx.request({
-      url: this.data.api.url, 
-      success: result => {     
-        var data = result.data
-        var today_index = this.getTodayIndex(data.result)
-        if (today_index != -1){
-          data.result = data.result.slice(today_index - 1, today_index + 3)
-          data.result = this.setWeekString(data.result)
-          console.log(data)
+      url: this.data.api.url,
+      success: result => {
+        wx.setStorageSync(this.data.name, result.data)
+        if (this.getData) {
+          this.getData()
         }
-        this.setData({
-          bangumi: data,
-          loading : false
-        })
       }
     })
   },
   getTodayIndex: function (list) {
     var index = -1
-    for(var i in list){
-      if(list[i].is_today == 1){
+    for (var i in list) {
+      if (list[i].is_today == 1) {
         index = i
         break
       }
     }
-    return Number(index) 
+    return Number(index)
   },
-  setWeekString: function (list) {   
+  setWeekString: function (list) {
     for (var i in list) {
       var day_of_week = list[i].day_of_week
       var week_string = ""
-      
+
       switch (day_of_week) {
         case 1:
           week_string = "周一"
@@ -75,8 +88,10 @@ Page({
     }
     return list
   },
-  activeTab: function (e) {  
+  activeTab: function (e) {
     var index = e.currentTarget.dataset.index
-    console.log(index)
-   }
+    this.setData({
+      activeId: index,
+    })
+  }
 })
