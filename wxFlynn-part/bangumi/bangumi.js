@@ -10,6 +10,7 @@ Page({
       url: 'https://bangumi.bilibili.com/web_api/timeline_global',
     },
     bangumi: [],
+    img: '../../static/images/bangumi.jpg',
     today_index: 6,
     activeId: 1,
   },
@@ -37,7 +38,7 @@ Page({
     })
   },
   updateData: function () {
-    sysUtil.fetchApi(this.data.api.url)
+    sysUtil.http.get(this.data.api.url)
       .then(result => {
         result.data.save_time = sysUtil.dateFormat(new Date(), "M-dd")
         wx.setStorageSync(this.data.name, result.data)
