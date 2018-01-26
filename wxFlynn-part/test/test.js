@@ -4,94 +4,32 @@ const sysUtil = require('../../utils/sysUtil.js')
 
 Page({
   data: {
-    name: 'bangumi',
+    name: 'test',
     loading: true,
     api: {
-      url: 'https://bangumi.bilibili.com/web_api/timeline_global',
+      url: 'https://movie.douban.com/j/search_subjects?type=movie&tag=%E7%83%AD%E9%97%A8&page_limit=50&page_start=0',
     },
-    bangumi: {},
-    activeId: 1
+    list: [],
+    img: '../../static/images/douban.jpg',
   },
   onLoad: function () {
-    this.getData()
+    this.updateData()
+    
   },
   getData: function () {
-    var data = wx.getStorageSync(this.data.name)
-    if (!data){
-      data = this.loadData()
-      return
-    }
-    var today = sysUtil.dateFormat(new Date(),"M-dd")
-    var today_index = this.getTodayIndex(data.result)
-    if (today_index != -1 && today == data.result[today_index].date) {
-      data.result = data.result.slice(today_index - 1, today_index + 3)
-      data.result = this.setWeekString(data.result)
-      console.log(data)
-    }
-    this.setData({
-      bangumi: data,
-      loading: false
-    })
   },
-  loadData: function () {
-    wx.request({
-      url: this.data.api.url,
-      success: result => {
-        wx.setStorageSync(this.data.name, result.data)
-        if (this.getData) {
-          this.getData()
-        }
-      }
-    })
+  updateData: function () {
+    sysUtil.http.get(this.data.api.url)
+      .then(result => { 
+        console.log(result)
+        this.setData({
+          list: result.data.subjects,
+          loading: false
+        })
+        console.log(this.data.list)
+      })
+      .catch(e => {
+        console.error(e)
+      })
   },
-  getTodayIndex: function (list) {
-    var index = -1
-    for (var i in list) {
-      if (list[i].is_today == 1) {
-        index = i
-        break
-      }
-    }
-    return Number(index)
-  },
-  setWeekString: function (list) {
-    for (var i in list) {
-      var day_of_week = list[i].day_of_week
-      var week_string = ""
-
-      switch (day_of_week) {
-        case 1:
-          week_string = "周一"
-          break;
-        case 2:
-          week_string = "周二"
-          break;
-        case 3:
-          week_string = "周三"
-          break;
-        case 4:
-          week_string = "周四"
-          break;
-        case 5:
-          week_string = "周五"
-          break;
-        case 6:
-          week_string = "周六"
-          break;
-        case 7:
-          week_string = "周日"
-          break;
-        default:
-          break
-      }
-      list[i].week_string = week_string
-    }
-    return list
-  },
-  activeTab: function (e) {
-    var index = e.currentTarget.dataset.index
-    this.setData({
-      activeId: index,
-    })
-  }
 })

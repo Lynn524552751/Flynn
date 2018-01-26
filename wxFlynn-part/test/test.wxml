@@ -1,26 +1,16 @@
 <view class="container">
   <view>
     <loading wx:if="{{loading}}">正在努力加载中</loading>
-    <template wx:else is="bangumi" data="{{...bangumi,activeId}}"/>
+     <template wx:else is="bangumi" data="{{list,img}}"/> 
   </view>
 </view>
 
 <template name="bangumi">
-  <view class='tab-navs'>
-    <block wx:for="{{result}}" wx:for-item="i" wx:key="bangumi_list">
-        <button class='tab-nav {{activeId == index ? "active" : ""}}' bindtap="activeTab" data-index="{{index}}">
-          <text> {{i.date}} </text>
-          <text> {{i.week_string}} </text>
-        </button> 
-    </block>
-  </view>
-  <view class='tab-pane'>
-    <block wx:for="{{result}}" wx:for-item="i" wx:key="bangumi_list">
-      <view  class='bangumi-list {{activeId == index ? "" : "hidden"}}' data-index="{{index}}" >
-      <block wx:for="{{i.seasons}}" wx:for-item="season" wx:key="season_list">
-        <text class='bangumi-item'>{{season.pub_time}} : {{season.title}} --{{season.pub_index}}</text> 
-      </block>
-      </view>
+  <view class="tab-pane">
+    <block wx:for="{{list}}" wx:for-item="i" wx:key="list">
+        <image class="bangumi-item-img" src="{{img}}" background-size="cover"></image>
+        <text> {{i.title}}</text>
+        <text>{{i.rate}}</text>
     </block>
   </view>
 </template>
