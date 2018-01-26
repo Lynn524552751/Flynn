@@ -1,16 +1,14 @@
 <view class="container">
-  <view>
-    <loading wx:if="{{loading}}">正在努力加载中</loading>
-    <template wx:else is="bangumi" data="{{bangumi,activeId,img}}"/>
-  </view>
+  <loading wx:if="{{loading}}">正在努力加载中</loading>
+  <template wx:else is="bangumi" data="{{bangumi,activeId,img}}"/>
 </view>
 
 <template name="bangumi">
   <view class='tab-navs'>
     <block wx:for="{{bangumi}}" wx:for-item="i" wx:key="bangumi_list">
         <view class='tab-nav bangum-tab {{activeId == index ? "active" : ""}}' bindtap="activeTab" data-index="{{index}}">
-          <text class='text-column'> {{i.date}} </text>
-          <text class='text-column'> {{i.week_string}} </text>
+            <view class='text-column'> {{i.date}} </view>
+            <view class='text-column'> {{i.week_string}} </view>
         </view> 
     </block>
   </view>
@@ -18,14 +16,12 @@
     <block wx:for="{{bangumi}}" wx:for-item="i" wx:key="bangumi_list">
       <view  class='bangumi-list {{activeId == index ? "" : "hidden"}}' data-index="{{index}}" >
       <block wx:for="{{i.seasons}}" wx:for-item="season" wx:key="season_list">
-        <view  class='bangumi-item'>
+        <view class='bangumi-item'>
           <image class="bangumi-item-img" src="{{img}}" background-size="cover"></image>
           <view  class='bangumi-item-info'>
-            <text class="text-column">{{season.title}}</text> 
-            <view class="row text-bottom">
-              <text class="text-left text-bottom">{{season.pub_time}}</text>
-              <text class="text-left text-bottom">{{season.pub_index}}</text>
-            </view>
+            <text>{{season.pub_time}}</text>
+            <text>{{season.title}}</text> 
+            <text>{{season.pub_index}}</text>
           </view>
         </view>
       </block>

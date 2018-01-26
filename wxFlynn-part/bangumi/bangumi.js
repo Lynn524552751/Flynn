@@ -85,5 +85,5 @@ Page({
     this.setData({
       activeId: index,
     })
-  }
+  },
 })
