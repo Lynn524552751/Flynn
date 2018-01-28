@@ -1,7 +1,8 @@
 //bangumi.js
 const util = require('../../utils/util.js')
 const sysUtil = require('../../utils/sysUtil.js')
-
+// console.log(encodeURI("热门")) 
+// console.log(decodeURI("%E7%88%B1%E6%83%85"))
 Page({
   data: {
     name: 'test',
@@ -9,6 +10,7 @@ Page({
     loadMore: true,
     api: {
       url: 'https://movie.douban.com/j/search_subjects?type=movie&tag=%E7%83%AD%E9%97%A8&page_limit=50&page_start=0',
+      tagUrl: "https://movie.douban.com/j/search_tags?type=movie&tag=%E7%83%AD%E9%97%A8&source="
     },
     list: [],
     img: '../../static/images/douban.jpg',
@@ -16,6 +18,7 @@ Page({
     per: 3 * 5,
   },
   onLoad: function () {
+    this.getTags()
     this.updateData()
 
   },
@@ -26,6 +29,15 @@ Page({
       return this.updateData()
     }
     return this.setShowData(data)
+  },
+  getTags: function () {
+    sysUtil.http.get(this.data.api.tagUrl)
+      .then(result => {
+        console.log(result)
+      })
+      .catch(e => {
+        console.error(e)
+      })
   },
   updateData: function () {
     sysUtil.http.get(this.data.api.url)
