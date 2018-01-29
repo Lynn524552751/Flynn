@@ -1,14 +1,8 @@
 <view class="container">
   <loading wx:if="{{loading}}">正在努力加载中</loading>
-  <scroll-view class="navbar" scroll-x="true" style="width: 100%;height: 80rpx;white-space: nowrap;" scroll-left="{{scrollNavbarLeft}}">
-    <view class="navbar-item" style="height: 100%;width: calc(750rpx / 7);display: inline-block;" wx:for="{{ list }}" wx:for-item="i" wx:key="list2">
-        <view id="{{ i.title }}" class="navbar-item-wrap"><text> {{i.title}}</text></view>
-    </view>
-  </scroll-view>
   <template is="douban" data="{{list,img}}"/> 
-  <view class="weui-loadmore" hidden="{{loadMore}}">
-    <view class="weui-loading"></view>
-    <view class="weui-loadmore__tips">正在加载</view>
+  <view class="loadmore" hidden="{{loadMore}}">
+    <view class="loadmore-tips">正在加载</view>
   </view>
 </view>
 

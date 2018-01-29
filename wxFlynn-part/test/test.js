@@ -9,18 +9,29 @@ Page({
     loading: true,
     loadMore: true,
     api: {
-      url: 'https://movie.douban.com/j/search_subjects?type=movie&tag=%E7%83%AD%E9%97%A8&page_limit=50&page_start=0',
-      tagUrl: "https://movie.douban.com/j/search_tags?type=movie&tag=%E7%83%AD%E9%97%A8&source="
+      url: 'https://movie.douban.com/j/search_subjects?type={type}&tag={tag}&page_limit=50&page_start=0',
+      tv_url: 'https://movie.douban.com/j/search_subjects?type=tv&tag=%E7%83%AD%E9%97%A8&page_limit=50&page_start=0',
+      variety_url: 'https://movie.douban.com/j/search_subjects?type=tv&tag=%E7%BB%BC%E8%89%BA&page_limit=50&page_start=0'
     },
     list: [],
     img: '../../static/images/douban.jpg',
     page: 1,
     per: 3 * 5,
   },
-  onLoad: function () {
-    this.getTags()
-    this.updateData()
-
+  onLoad: function (options) {
+    switch (options.name) {
+      case "movie":
+        this.updateData("movie")
+        break;
+      case "tv":
+        this.updateData("tv")
+        break;
+      case "variety":
+        this.updateData("tv","综艺")
+        break;
+      default:
+        break
+    }
   },
   getData: function () {
     var data = wx.getStorageSync(this.data.name)
@@ -39,8 +50,10 @@ Page({
         console.error(e)
       })
   },
-  updateData: function () {
-    sysUtil.http.get(this.data.api.url)
+  updateData: function (type, tag = "热门") {
+    var url = this.data.api.url.replace("{type}", type).replace("{tag}", encodeURI(tag))
+    console.log(url)
+    sysUtil.http.get(url)
       .then(result => {
         result.data.save_time = sysUtil.dateFormat(new Date(), "MM-dd")
         wx.setStorageSync(this.data.name, result.data)
@@ -57,7 +70,6 @@ Page({
     var loadMore = list.length <= page * this.data.per
     list = list.slice(0, page * this.data.per)
     console.log(list)
-    console.log(loadMore)
     this.setData({
       list: list,
       loading: false,
@@ -66,7 +78,7 @@ Page({
     })
   },
   onReachBottom: function () {
-    if (this.data.loadMore) { return true}
+    if (this.data.loadMore) { return }
     setTimeout(e=>{
       if (this.setShowData) {
         this.setShowData(wx.getStorageSync(this.data.name), this.data.page + 1)
