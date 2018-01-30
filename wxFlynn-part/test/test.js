@@ -5,7 +5,7 @@ const sysUtil = require('../../utils/sysUtil.js')
 // console.log(decodeURI("%E7%88%B1%E6%83%85"))
 Page({
   data: {
-    name: 'test',
+    name: 'douban',
     loading: true,
     loadMore: true,
     api: {
