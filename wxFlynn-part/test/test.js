@@ -19,19 +19,26 @@ Page({
     per: 3 * 5,
   },
   onLoad: function (options) {
+    var title = ""
     switch (options.name) {
       case "movie":
+        title = "电影"
         this.updateData("movie")
         break;
       case "tv":
+        title = "电视剧"
         this.updateData("tv")
         break;
       case "variety":
+        title = "综艺"
         this.updateData("tv","综艺")
         break;
       default:
         break
     }
+    wx.setNavigationBarTitle({
+      title: title
+    })
   },
   getData: function () {
     var data = wx.getStorageSync(this.data.name)
