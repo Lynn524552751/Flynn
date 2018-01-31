@@ -1,0 +1,21 @@
+<view class="container">
+  <loading wx:if="{{loading}}">正在努力加载中</loading>
+  <template is="douban" data="{{list,img}}"/> 
+  <view class="loadmore" hidden="{{loadMore}}">
+    <view class="loadmore-tips">正在加载</view>
+  </view>
+</view>
+
+<template name="douban">
+  <view class="douban-list">
+    <block wx:for="{{list}}" wx:for-item="i" wx:key="list">
+        <view class="douban-item">
+          <image class="douban-item-img" src="{{img}}" background-size="cover" bindtap="clickImage"></image>
+          <view class="douban-item-info">
+            <text> {{i.title}}</text>
+            <text>{{i.rate}}</text>
+          </view>
+        </view>
+    </block>
+  </view>
+</template>
