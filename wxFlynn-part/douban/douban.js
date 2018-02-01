@@ -91,16 +91,16 @@ Page({
     },500)
     
   },
-  clickImage: function () {
-    // wx.previewImage({
-    //   current: "static/images/douban.jpg",
-    //   urls: ["static/images/douban.jpg"],
-    //   success: result=>{
-    //     console.log("success")
-    //   },
-    //   fail: e =>{
-    //     console.log("fail")
-    //   },
-    // })
+  previewImage: function (e) {
+    wx.previewImage({
+      // current: "",
+      urls: [ e.target.dataset.src],
+      success: result=>{
+        // console.log("success")
+      },
+      fail: e =>{
+        // cosnsole.log("fail")
+      },
+    })
   }
 })

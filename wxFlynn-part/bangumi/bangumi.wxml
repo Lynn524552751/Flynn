@@ -17,7 +17,7 @@
       <view  class='bangumi-list {{activeId == index ? "" : "hidden"}}' data-index="{{index}}" >
       <block wx:for="{{i.seasons}}" wx:for-item="season" wx:key="season_list">
         <view class='bangumi-item'>
-          <image class="bangumi-item-img" src="{{img}}" background-size="cover"></image>
+          <image class="bangumi-item-img" src="{{season.square_cover}}" background-size="cover"></image>
           <view  class='bangumi-item-info'>
             <text>{{season.pub_time}}</text>
             <text>{{season.title}}</text> 

@@ -10,7 +10,7 @@
   <view class="douban-list">
     <block wx:for="{{list}}" wx:for-item="i" wx:key="list">
         <view class="douban-item">
-          <image class="douban-item-img" src="{{img}}" background-size="cover" bindtap="clickImage"></image>
+          <image class="douban-item-img" src="{{i.cover}}" data-src="{{i.cover}}" background-size="cover" bindtap="previewImage"></image>
           <view class="douban-item-info">
             <text> {{i.title}}</text>
             <text>{{i.rate}}</text>
