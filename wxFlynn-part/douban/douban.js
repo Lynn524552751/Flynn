@@ -12,7 +12,7 @@ Page({
       url: 'https://movie.douban.com/j/search_subjects?type={type}&tag={tag}&page_limit=50&page_start=0',
     },
     list: [],
-    img: '../../static/images/douban.jpg',
+    //img: '../../static/images/douban.jpg',
     page: 1,
     per: 3 * 5,
   },
