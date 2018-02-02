@@ -12,8 +12,8 @@ Page({
       url: 'https://movie.douban.com/j/search_subjects?type={type}&tag={tag}&page_limit=50&page_start=0',
     },
     list: [],
-    //img: '../../static/images/douban.jpg',
-    page: 1,
+    img: '../../static/images/douban.jpg',
+    page: 0,
     per: 3 * 5,
   },
   onLoad: function (options) {
@@ -70,7 +70,8 @@ Page({
         console.error(e)
       })
   },
-  setShowData: function (data, page = 1) {
+  setShowData: function (data) {
+    var page = this.data.page + 1
     var list = data.subjects
     var loadMore = list.length <= page * this.data.per
     list = list.slice(0, page * this.data.per)
@@ -86,7 +87,7 @@ Page({
     if (this.data.loadMore) { return }
     setTimeout(e=>{
       if (this.setShowData) {
-        this.setShowData(wx.getStorageSync(this.data.name), this.data.page + 1)
+        this.setShowData(wx.getStorageSync(this.data.name))
       }
     },500)
     

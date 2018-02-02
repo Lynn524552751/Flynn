@@ -9,7 +9,7 @@ Page({
     loading: true,
     loadMore: true,
     api: {
-      url: 'https://movie.douban.com/j/search_subjects?type={type}&tag={tag}&page_limit=50&page_start=0', 
+      url: 'http://s.music.qq.com/fcgi-bin/music_search_new_platform?t=0& amp;n={2}&aggr=1&cr=1&loginUin={3}&format=json&inCharset=GB2312&outCharset=utf-8&notice=0&platform=jqminiframe.json&needNewCode=0&p={1}&catZhida=0&remoteplace=sizer.newclient.next_song&w={0}', 
     },
     list: [],
     img: '../../static/images/douban.jpg',
@@ -17,26 +17,7 @@ Page({
     per: 3 * 5,
   },
   onLoad: function (options) {
-    var title = ""
-    switch (options.name) {
-      case "movie":
-        title = "电影"
-        this.updateData("movie")
-        break;
-      case "tv":
-        title = "电视剧"
-        this.updateData("tv")
-        break;
-      case "variety":
-        title = "综艺"
-        this.updateData("tv","综艺")
-        break;
-      default:
-        break
-    }
-    wx.setNavigationBarTitle({
-      title: title
-    })
+      this.updateData()
   },
   getData: function () {
     var data = wx.getStorageSync(this.data.name)
@@ -55,13 +36,13 @@ Page({
         console.error(e)
       })
   },
-  updateData: function (type, tag = "热门") {
-    var url = this.data.api.url.replace("{type}", type).replace("{tag}", encodeURI(tag))
+  updateData: function () {
+    var url = this.data.api.url.replace("{0}", "周杰伦").replace("{1}", "1").replace("{2}", "25").replace("{3}", "0")
     console.log(url)
     sysUtil.http.get(url)
       .then(result => {
         result.data.save_time = sysUtil.dateFormat(new Date(), "MM-dd")
-        wx.setStorageSync(this.data.name, result.data)
+        //wx.setStorageSync(this.data.name, result.data)
         if (this.setShowData) {
           this.setShowData(result.data)
         }
@@ -70,11 +51,8 @@ Page({
         console.error(e)
       })
   },
-  setShowData: function (data, page = 1) {
-    var list = data.subjects
-    var loadMore = list.length <= page * this.data.per
-    list = list.slice(0, page * this.data.per)
-    console.log(list)
+  setShowData: function (data) {
+    console.log(data)
     this.setData({
       list: list,
       loading: false,
