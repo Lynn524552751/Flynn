@@ -9,10 +9,10 @@ Page({
     loading: true,
     loadMore: true,
     api: {
-      url: 'https://movie.douban.com/j/search_subjects?type={type}&tag={tag}&page_limit=50&page_start=0',
+      url: 'https://movie.douban.com/j/search_subjects',
     },
     list: [],
-    img: '../../static/images/douban.jpg',
+    // img: '../../static/images/douban.jpg',
     page: 0,
     per: 3 * 5,
   },
@@ -56,10 +56,16 @@ Page({
       })
   },
   updateData: function (type, tag = "热门") {
-    var url = this.data.api.url.replace("{type}", type).replace("{tag}", encodeURI(tag))
-    console.log(url)
-    sysUtil.http.get(url)
+    var url = this.data.api.url
+    var data = {
+      type: type,
+      tag: tag,
+      page_limit:50,
+      page_start:0
+    }
+    sysUtil.http.get(url,data)
       .then(result => {
+        console.log(result)
         result.data.save_time = sysUtil.dateFormat(new Date(), "MM-dd")
         wx.setStorageSync(this.data.name, result.data)
         if (this.setShowData) {
