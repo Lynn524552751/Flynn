@@ -12,9 +12,10 @@ Page({
       url: 'https://movie.douban.com/j/search_subjects',
     },
     list: [],
-    // img: '../../static/images/douban.jpg',
+    tag: ["热门", "国产剧", "综艺", "美剧", "日剧", "韩剧", "日本动画", "纪录片"],
     page: 0,
     per: 3 * 5,
+    activeId: 0,
   },
   onLoad: function (options) {
     var title = ""
@@ -55,11 +56,11 @@ Page({
         console.error(e)
       })
   },
-  updateData: function (type, tag = "热门") {
+  updateData: function (type, tag_index = 0) {
     var url = this.data.api.url
     var data = {
       type: type,
-      tag: tag,
+      tag: this.data.tag[tag_index],
       page_limit:50,
       page_start:0
     }
@@ -109,5 +110,13 @@ Page({
         // cosnsole.log("fail")
       },
     })
-  }
+  },
+  activeTab: function (e) {
+    var index = e.currentTarget.dataset.index
+    this.updateData("tv", index)
+    this.setData({
+      activeId: index
+    })
+
+  },
 })

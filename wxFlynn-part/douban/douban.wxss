@@ -7,6 +7,23 @@
   padding: 0rpx 0;
   box-sizing: border-box;
 }
+.tab-navs {
+  display: flex;
+  flex-direction: row; 
+  padding: 40rpx;
+}
+
+.tab-navs .active {
+  color: #00BFFF;
+  border-bottom: 1rpx solid #00BFFF;
+}
+.douban-tab {
+  display: inline-block;
+  font-size: 14px;
+  padding: 5px 15px;
+  line-height: 1.55555556;
+}
+
 .douban-list{
    width: 100%; 
 }

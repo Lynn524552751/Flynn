@@ -1,12 +1,19 @@
 <view class="container">
   <loading wx:if="{{loading}}">正在努力加载中</loading>
-  <template is="douban" data="{{list,img}}"/> 
+  <template is="douban" data="{{list,tag,activeId}}"/> 
   <view class="loadmore" hidden="{{loadMore}}">
     <view class="loadmore-tips">正在加载</view>
   </view>
 </view>
 
 <template name="douban">
+  <scroll-view class='tab-navs' scroll-x="true" style=" white-space: nowrap; display: flex" >
+    <block wx:for="{{tag}}" wx:for-item="i" wx:key="douban_list">
+        <view class='tab-nav douban-tab {{activeId == index ? "active" : ""}}' bindtap="activeTab" data-index="{{index}}">
+            <view class='text-column'> {{i}} </view>
+        </view> 
+    </block>
+  </scroll-view>
   <view class="douban-list">
     <block wx:for="{{list}}" wx:for-item="i" wx:key="list">
         <view class="douban-item">
