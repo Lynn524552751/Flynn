@@ -7,8 +7,11 @@
   <view class="douban-list">
     <block wx:for="{{list}}" wx:for-item="i" wx:key="list">
         <view class="douban-item">
+          <image class="douban-item-img" src="{{i.images[0]}}"background-size="cover"></image>
           <view class="douban-item-info">
-            <text> {{i.fsong}}</text>
+            
+            <text> {{i.title}}</text>
+
             <!-- <text>{{i.fsinger}}</text> -->
           </view>
         </view>

@@ -1,18 +1,15 @@
 //bangumi.js
 const util = require('../../utils/util.js')
 const sysUtil = require('../../utils/sysUtil.js')
-// console.log(encodeURI("热门")) 
-// console.log(decodeURI("%E7%88%B1%E6%83%85"))
 Page({
   data: {
     name: 'test',
     loading: true,
     api: {
-      url: 'http://s.music.qq.com/fcgi-bin/music_search_new_platform?t=0& amp;n={2}&aggr=1&cr=1&loginUin={3}&format=json&inCharset=GB2312&outCharset=utf-8&notice=0&platform=jqminiframe.json&needNewCode=0&p={1}&catZhida=0&remoteplace=sizer.newclient.next_song&w={0}', 
+      url: 'http://news-at.zhihu.com/api/4/news/latest', 
+      news_url:"http://news-at.zhihu.com/api/4/news/9670293"
     },
     list: [],
-    page: 1,
-    per: 3 * 5,
   },
   onLoad: function (options) {
       this.updateData()
@@ -26,12 +23,14 @@ Page({
     return this.setShowData(data)
   },
   updateData: function () {
-    var url = this.data.api.url.replace("{0}", "周杰伦").replace("{1}", "1").replace("{2}", "25").replace("{3}", "0")
+    var url = this.data.api.url
+    var data = {}
     console.log(url)
-    sysUtil.http.get(url)
+    sysUtil.http.get(url,data)
       .then(result => {
         result.data.save_time = sysUtil.dateFormat(new Date(), "MM-dd")
-        //wx.setStorageSync(this.data.name, result.data)
+        wx.setStorageSync(this.data.name, result.data)
+        console.log(result)
         if (this.setShowData) {
           this.setShowData(result.data)
         }
@@ -41,7 +40,7 @@ Page({
       })
   },
   setShowData: function (data) {
-    var list = data.data.song.list
+    var list = data.stories
     console.log(list)
     this.setData({
       list: list,
@@ -49,6 +48,7 @@ Page({
     })
   },
   onReachBottom: function () {
+    return
     if (this.data.loadMore) { return }
     setTimeout(e=>{
       if (this.setShowData) {
@@ -57,16 +57,4 @@ Page({
     },500)
     
   },
-  clickImage: function () {
-    // wx.previewImage({
-    //   current: "static/images/douban.jpg",
-    //   urls: ["static/images/douban.jpg"],
-    //   success: result=>{
-    //     console.log("success")
-    //   },
-    //   fail: e =>{
-    //     console.log("fail")
-    //   },
-    // })
-  }
 })
