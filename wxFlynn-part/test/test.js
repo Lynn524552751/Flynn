@@ -6,10 +6,11 @@ Page({
     name: 'test',
     loading: true,
     api: {
-      url: 'http://news-at.zhihu.com/api/4/news/latest', 
-      news_url:"http://news-at.zhihu.com/api/4/news/9670293"
+      url: 'http://capi.douyucdn.cn/api/v1/live/2?&limit=20&offset=0', 
     },
     list: [],
+    cate_id:2,
+    shortName: "game"
   },
   onLoad: function (options) {
       this.updateData()
@@ -40,7 +41,7 @@ Page({
       })
   },
   setShowData: function (data) {
-    var list = data.stories
+    var list = data.data
     console.log(list)
     this.setData({
       list: list,

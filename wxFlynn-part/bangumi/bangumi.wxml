@@ -3,22 +3,22 @@
   <template wx:else is="bangumi" data="{{list,activeId,img}}"/>
 </view>
 
-<template name="bangumi">
+<template name="bangumi" >
   <view class='tab-navs'>
-    <block wx:for="{{list}}" wx:for-item="i" wx:key="bangumi_list">
+    <block wx:for="{{list}}" wx:for-item="i" wx:key="bangumi-nav-list">
         <view class='tab-nav bangum-tab {{activeId == index ? "active" : ""}}' bindtap="activeTab" data-index="{{index}}">
-            <view class='text-column'> {{i.date}} </view>
-            <view class='text-column'> {{i.week_string}} </view>
+            <view> {{i.date}} </view>
+            <view> {{i.week_string}} </view>
         </view> 
     </block>
   </view>
-  <view class='tab-pane'>
-    <block wx:for="{{list}}" wx:for-item="i" wx:key="bangumi_list">
-      <view  class='bangumi-list {{activeId == index ? "" : "hidden"}}' data-index="{{index}}" >
-      <block wx:for="{{i.seasons}}" wx:for-item="season" wx:key="season_list">
-        <view class='bangumi-item'>
-          <image class="bangumi-item-img" src="{{season.square_cover}}" background-size="cover"></image>
-          <view  class='bangumi-item-info'>
+  <view class='tab-pane' id="bangumi">
+    <block wx:for="{{list}}" wx:for-item="i" wx:key="bangumi-data-list">
+      <view  class='list {{activeId == index ? "active" : "hidden"}}' data-index="{{index}}" >
+      <block wx:for="{{i.seasons}}" wx:for-item="season" wx:key="bangumi-season-list">
+        <view class='item'>
+          <image class="item-img" src="{{season.square_cover}}" background-size="cover"></image>
+          <view  class='item-info'>
             <text>{{season.pub_time}}</text>
             <text>{{season.title}}</text> 
             <text>{{season.pub_index}}</text>

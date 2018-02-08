@@ -4,15 +4,13 @@
 </view>
 
 <template name="douban">
-  <view class="douban-list">
+  <view class="list" id="test">
     <block wx:for="{{list}}" wx:for-item="i" wx:key="list">
-        <view class="douban-item">
-          <image class="douban-item-img" src="{{i.images[0]}}"background-size="cover"></image>
-          <view class="douban-item-info">
-            
-            <text> {{i.title}}</text>
-
-            <!-- <text>{{i.fsinger}}</text> -->
+        <view class="item">
+          <image class="item-img" src="{{i.room_src}}" data-src="{{i.room_src}}" background-size="cover" bindtap="previewImage"></image>
+          <view class="item-info">
+            <text> {{i.room_name}}</text>
+            <!-- <text> {{i.nickname}}      {{i.online}}</text> -->
           </view>
         </view>
     </block>

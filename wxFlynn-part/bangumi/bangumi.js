@@ -10,7 +10,6 @@ Page({
       url: 'https://bangumi.bilibili.com/web_api/timeline_global',
     },
     list: [],
-    // img: '../../static/images/bangumi.jpg',
     today_index: 6,
     activeId: 1,
   },

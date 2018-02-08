@@ -8,26 +8,6 @@
   box-sizing: border-box;
 }
 
-.tab-navs {
-  display: flex;
-  flex-direction: row; 
-  padding: 40rpx;
-}
-
-.tab-navs .active {
-  color: #00BFFF;
-  border-bottom: 1rpx solid #00BFFF;
-}
-
-.tab-pane {
-  width: 100%;
-  padding: 30rpx;
-}
-
-.tab-pane .hidden {
-  display: none;
-}
-
 .bangum-tab {
   display: inline-block;
   font-size: 14px;
@@ -35,29 +15,27 @@
   line-height: 1.55555556;
 }
 
-.bangumi-list {
-  display: flex;
-  flex-direction: column;
+#bangumi .list {
   padding: 0rpx 60rpx;
 }
 
-.bangumi-item {
+#bangumi .item {
   display: inline-block;
   padding: 20rpx 0;
 }
 
-.bangumi-item-info {
+#bangumi .item-info {
   display: flex;
   flex-direction: column;
   padding: 0 20rpx;
 }
 
-.bangumi-item-info text{
+#bangumi .item-info text{
   height: 56rpx; 
   overflow: hidden;
   line-height: 1.5;
 }
-.bangumi-item-img {
+#bangumi .item-img {
   float: left;
   width: 180rpx;
   height: 180rpx;

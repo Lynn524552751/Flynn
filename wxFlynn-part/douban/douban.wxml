@@ -7,22 +7,24 @@
 </view>
 
 <template name="douban">
-  <scroll-view class='tab-navs' scroll-x="true" style=" white-space: nowrap; display: flex" >
+  <scroll-view class='tab-navs' scroll-x="true">
     <block wx:for="{{tags}}" wx:for-item="i" wx:key="douban_list">
         <view class='tab-nav douban-tab {{activeId == index ? "active" : ""}}' bindtap="activeTab" data-index="{{index}}">
             <view class='text-column'> {{i}} </view>
         </view> 
     </block>
   </scroll-view>
-  <view class="douban-list">
-    <block wx:for="{{list}}" wx:for-item="i" wx:key="list">
-        <view class="douban-item">
-          <image class="douban-item-img" src="{{i.cover}}" data-src="{{i.cover}}" background-size="cover" bindtap="previewImage"></image>
-          <view class="douban-item-info">
-            <text> {{i.title}}</text>
-            <text>{{i.rate}}</text>
+  <view class="tab-pane" id="douban">
+    <view class="list">
+      <block wx:for="{{list}}" wx:for-item="i" wx:key="list">
+          <view class="item">
+            <image class="item-img" src="{{i.cover}}" data-src="{{i.cover}}" background-size="cover" bindtap="previewImage"></image>
+            <view class="item-info">
+              <text> {{i.title}}</text>
+              <text>{{i.rate}}</text>
+            </view>
           </view>
-        </view>
-    </block>
+      </block>
+    </view>
   </view>
 </template>
