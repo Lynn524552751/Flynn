@@ -1,7 +1,7 @@
 #encoding:UTF-8
 
 import re
-import requests
+import requests,json
 from bs4 import BeautifulSoup
 
 
@@ -11,37 +11,24 @@ def getHtml(url):
     html = requests.get(url,verify=False).content
     return html
 
+def getJsonByGetUrl(url):
+    data = json.loads(requests.get(url).text)
+    return data
 #
-def get_douyu_player(html):
+def get_douyu_player(data):
     player_list = []
-    soup = BeautifulSoup(html, "lxml")
-    player_div=soup.select("a.play-list-link")
-    for div in player_div:
+    for i in data.get("data"):
         player = {}
-
-        player['name']= div.select("span.dy-name")[0].string
-
-        num = div.select("span.dy-num")[0].string
-        wan = "万"
-        if wan in num:
-            index=num.find(wan)
-            num=float(num[0:index])*10000
-        player['num'] = int(num)
-
-        title = div.select("h3.ellipsis")[0].get_text()
-        player['title'] = str(title).strip()
-
-        player['img'] = div.select("img")[0]['data-original']
-
-        player['href'] =douyu_boot + str(div['href'])
-
+        player['title'] = i.get("room_name")
+        player['name'] =i.get("nickname")
+        player['num'] = i.get("online")
+        player['img'] = i.get("room_src")
+        player['href'] = douyu_boot+i.get("url")
         if player['num'] > 1000:
             player_list.append(player)
-
     return player_list
 
 def get_panda_player(html):
-
     player_list = []
     soup = BeautifulSoup(html, "lxml")
     player_div=soup.select("li.video-no-tag")
@@ -77,7 +64,7 @@ def get_panda_player(html):
 
 #re 正则
 def getRe(html):
-	#eg <span class="dy-name ellipsis fl">XXX</span>
+    #eg <span class="dy-name ellipsis fl">XXX</span>
 	#reg = r'<span class="dy-name ellipsis fl">[^<]*</span>'
     name_restr = r'<span class="dy-name ellipsis fl">(.*?)</span>'
     name_remode = re.compile(name_restr)
@@ -87,8 +74,8 @@ def getRe(html):
 def main():
     player_list = []
 
-    douyu_html = getHtml(douyu_url)
-    douyu_player_list = get_douyu_player(douyu_html)
+    douyu_json = getJsonByGetUrl(douyu_api)
+    douyu_player_list = get_douyu_player(douyu_json)
     player_list.extend(douyu_player_list)
 
     panda_html = getHtml(panda_url)
@@ -100,6 +87,7 @@ def main():
         #print(player)
     return player_list
 #
+douyu_api = "http://capi.douyucdn.cn/api/v1/live/2?&limit=20&offset=0"
 douyu_url = "https://www.douyu.com/directory/game/How"
 douyu_boot = 'https://www.douyu.com'
 panda_url = "https://www.panda.tv/cate/hearthstone"
