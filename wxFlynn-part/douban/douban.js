@@ -40,7 +40,7 @@ Page({
       tags: tags,
       activeId:0
     })
-    this.updateData(this.data.name)
+    this.updateData()
   },
   getData: function () {
     var data = wx.getStorageSync(this.data.name)
@@ -59,11 +59,11 @@ Page({
         console.error(e)
       })
   },
-  updateData: function (name,index=0) {
+  updateData: function () {
     var url = this.data.api.url
-    var tag = this.data.tags[index]
+    var tag = this.data.tags[this.data.activeId]
     var data = {
-      type: name,
+      type: this.data.name,
       tag: tag,
       page_limit:50,
       page_start:0
@@ -74,14 +74,14 @@ Page({
         result.data.save_time = sysUtil.dateFormat(new Date(), "MM-dd")
         wx.setStorageSync(this.data.name, result.data)
         if (this.setShowData) {
-          this.setShowData(result.data,false, index)
+          this.setShowData(result.data,false)
         }
       })
       .catch(e => {
         console.error(e)
       })
   },
-  setShowData: function (data, more, index) {
+  setShowData: function (data, more) {
     var page = more ? this.data.page + 1 : 1 
     var list = data.subjects.slice(0, page * this.data.per)
     var loadMore = data.subjects.length <= page * this.data.per   
@@ -91,7 +91,6 @@ Page({
       loading: false,
       page: page,
       loadMore: loadMore,
-      activeId: index
     })
   },
   onReachBottom: function () {
@@ -116,7 +115,10 @@ Page({
   },
   activeTab: function (e) {
     var index = e.currentTarget.dataset.index
-    console.log(index)
-    this.updateData(this.data.name, index)
+    this.setData({
+      activeId: index
+    })
+    this.updateData()
+    
   },
 })
