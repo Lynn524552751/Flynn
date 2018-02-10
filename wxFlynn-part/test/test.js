@@ -6,7 +6,12 @@ Page({
     name: 'test',
     loading: true,
     api: {
-      url: 'http://capi.douyucdn.cn/api/v1/live/2?&limit=20&offset=0', 
+      douyu:{
+        url: 'http://capi.douyucdn.cn/api/v1/live/2',
+      },
+      panda:{
+        url: 'https://m.panda.tv/type.html?cate=hearthstone&pdt=2.2.1.0.2h1e3aigt5b'
+      }
     },
     list: [],
     cate_id:2,
@@ -24,9 +29,11 @@ Page({
     return this.setShowData(data)
   },
   updateData: function () {
-    var url = this.data.api.url
-    var data = {}
-    console.log(url)
+    var url = this.data.api.douyu.url
+    var data = {
+      limit:20 ,
+      offset:0
+    }
     sysUtil.http.get(url,data)
       .then(result => {
         result.data.save_time = sysUtil.dateFormat(new Date(), "MM-dd")
@@ -47,15 +54,5 @@ Page({
       list: list,
       loading: false,
     })
-  },
-  onReachBottom: function () {
-    return
-    if (this.data.loadMore) { return }
-    setTimeout(e=>{
-      if (this.setShowData) {
-        this.setShowData(wx.getStorageSync(this.data.name), this.data.page + 1)
-      }
-    },500)
-    
   },
 })
