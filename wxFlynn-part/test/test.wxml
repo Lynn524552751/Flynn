@@ -7,10 +7,10 @@
   <view class="list" id="test">
     <block wx:for="{{list}}" wx:for-item="i" wx:key="list">
         <view class="item">
-          <image class="item-img" src="{{i.room_src}}" data-src="{{i.room_src}}" background-size="cover" bindtap="previewImage"></image>
+          <image class="item-img" src="{{i.img}}" data-src="{{i.img}}" background-size="cover" bindtap="previewImage"></image>
           <view class="item-info">
-            <text> {{i.room_name}}</text>
-            <!-- <text> {{i.nickname}}      {{i.online}}</text> -->
+            <text> {{i.title}}</text>
+             <text> {{i.name}}      {{i.sum}}</text> 
           </view>
         </view>
     </block>
