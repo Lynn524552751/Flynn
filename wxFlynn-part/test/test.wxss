@@ -17,7 +17,7 @@
   overflow: hidden;
 }
 #test .item-img {
-  float: left;
+  /* float: left; */
   width: 360rpx;
   height: 204rpx;
   padding: 0rpx 10rpx
@@ -31,4 +31,18 @@
   padding-bottom: 10rpx;
   text-align: center;
   font-size: 14px;
+}
+#test .item-cover {
+  margin:0 auto;
+  color: #fff; 
+  padding: 0rpx 15rpx; 
+  margin: -48rpx 10rpx 0rpx;
+  background-color: rgba(0,0,0,.5);
+  text-align: right;
+}
+#test .item-cover text{
+  width: 100%;
+  text-align: right;
+  color: #fff;
+  font-size: 0.8rem;
 }

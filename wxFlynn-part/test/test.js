@@ -190,6 +190,11 @@ Page({
       data.sort((a, b) => {
         return b.sum - a.sum;
       })
+      for (var i in data){
+        if(data[i].sum > 10000){
+          data[i].sum = (data[i].sum / 10000).toFixed(1) + "W"
+        }
+      }
       this.setData({
         list: this.data.live.data,
         loading: false,
