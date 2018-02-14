@@ -46,3 +46,10 @@
   color: #fff;
   font-size: 0.8rem;
 }
+
+.douban-tab {
+  display: inline-block;
+  font-size: 14px;
+  padding: 5px 10px;
+  line-height: 1.55555556;
+}

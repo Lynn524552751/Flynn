@@ -40,6 +40,7 @@ Page({
         }
       }
     },
+    tags: ["斗鱼", "熊猫", "战旗", "CC"],
     list: [],
     live: {
       data: [],
@@ -190,8 +191,8 @@ Page({
       data.sort((a, b) => {
         return b.sum - a.sum;
       })
-      for (var i in data){
-        if(data[i].sum > 10000){
+      for (var i in data) {
+        if (data[i].sum > 10000) {
           data[i].sum = (data[i].sum / 10000).toFixed(1) + "W"
         }
       }
@@ -202,16 +203,33 @@ Page({
     }
   },
   activeTab: function (e) {
-    var s = {
-      0: this.updateAllData(),
-      1: this.updateDouyuData(),
-      2: this.updatePandaData(),
-      3: this.updateAllData()
-    }
     var index = e.currentTarget.dataset.index
-    this.setData({
-      activeId: index
-    })
-    s[index]
+    if (index == this.data.activeId) {
+      this.updateAllData()
+    } else {
+      this.setData({
+        live: {
+          data: [],
+          len: 0,
+        },
+        activeId: index
+      })
+      switch (index) {
+        case 1:
+          this.updateDouyuData()
+          break;
+        case 2:
+          this.updatePandaData()
+          break;
+        case 3:
+          this.updateZhanqiData()
+          break;
+        case 4:
+          this.updateCCData()
+          break;
+        default:
+          break
+      }
+    }
   },
 })
