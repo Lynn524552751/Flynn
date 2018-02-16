@@ -9,7 +9,8 @@
   </view>
   <view class="usermotto">
     <!-- <text class="user-motto">{{motto}}</text> -->
-    <button bindtap="redirectView" data-nav="test" data-param="movie">测试</button>
+    <button bindtap="redirectView" data-nav="test">测试</button>
+    <button bindtap="redirectView" data-nav="live">直播</button>
     <button bindtap="redirectView" data-nav="douban" data-param="movie">电影</button>
     <button bindtap="redirectView" data-nav="douban" data-param="tv">电视</button>
     <button bindtap="redirectView" data-nav="bangumi">番剧</button>

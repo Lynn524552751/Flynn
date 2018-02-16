@@ -119,6 +119,5 @@ Page({
       activeId: index
     })
     this.updateData()
-    
   },
 })
