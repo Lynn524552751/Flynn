@@ -13,11 +13,7 @@
   </view>
   <view class="list" id="test"> 
     <block wx:for="{{list}}" wx:for-item="i" wx:key="list">
-        <view class="item">
-          <image class="item-img" src="{{i.img}}" data-src="{{i.img}}" background-size="cover" bindtap="previewImage"></image>
-          <view class="item-cover">
-            <text>{{i.sum}}</text> 
-          </view>          
+        <view class="item">       
           <view class="item-info">
             <text> {{i.title}}</text>
              <!-- <text> {{i.name}}      {{i.sum}}</text>  -->

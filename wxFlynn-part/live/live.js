@@ -13,8 +13,6 @@ Page({
           limit: 20,
           offset: 0
         },
-        cate_id: 2,
-        shortName: "game"
       },
       panda: {
         url: 'https://api.m.panda.tv/ajax_get_live_list_by_cate',
@@ -38,15 +36,26 @@ Page({
           start: 0,
           size: 20
         }
+      },
+      bili: {
+        url: 'http://api.live.bilibili.com/room/v1/area/getRoomList',
+        data: {
+          parent_area_id: 2,
+          cate_id: 0,
+          area_id: 91,
+          sort_type: "online",
+          page: 1,
+          page_size: 20
+        }
       }
     },
-    tags: ["斗鱼", "熊猫", "战旗", "CC"],
+    tags: ["斗鱼", "熊猫", "战旗", "CC","B站"],
     list: [],
     live: {
       data: [],
       len: 0,
     },
-    live_max: 4,
+    live_max: 5,
     activeId: 0
   },
   onLoad: function () {
@@ -64,7 +73,7 @@ Page({
     this.updatePandaData()
     this.updateCCData()
     this.updateZhanqiData()
-
+    this.updateBiliData()
   },
   updateDouyuData: function () {
     sysUtil.http.get(this.data.api.douyu.url, this.data.api.douyu.data)
@@ -182,6 +191,35 @@ Page({
         console.error(e)
       })
   },
+  updateBiliData: function () {
+    sysUtil.http.get(this.data.api.bili.url, this.data.api.bili.data)
+      .then(result => {
+        console.log(result)
+        if (this.setShowData) {
+          var list = this.data.live.data
+          var data = result.data.data
+          for (var i in data) {
+            var item = {}
+            item.title = data[i].title
+            item.name = data[i].uname
+            item.sum = data[i].online
+            item.img = data[i].system_cover
+            item.url = data[i].link
+            list.push(item)
+          }
+          this.setData({
+            live: {
+              data: list,
+              len: this.data.live.len + 1,
+            }
+          })
+          this.setShowData()
+        }
+      })
+      .catch(e => {
+        console.error(e)
+      })
+  },
   setShowData: function () {
     var index = this.data.activeId
     var len = this.data.live.len
@@ -226,6 +264,9 @@ Page({
           break;
         case 4:
           this.updateCCData()
+          break;
+        case 5:
+          this.updateBiliData()
           break;
         default:
           break
