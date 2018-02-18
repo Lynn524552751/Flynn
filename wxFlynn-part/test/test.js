@@ -7,9 +7,11 @@ Page({
     name: 'test',
     loading: true,
     api: {
-      url: 'https://www.qiushibaike.com/text/',
+      url: 'https://www.csdn.net/api/articles?',
       data: {
-        page: 1
+        type: "more",
+        category: "home",
+        shown_offset: "1518953888480676"
       },
       cate_id: 2,
       shortName: "game"
@@ -26,7 +28,7 @@ Page({
       .then(result => {
         console.log(result)
         if (this.setShowData) {
-          this.setShowData()
+          this.setShowData(result.data)
         }
       })
       .catch(e => {
@@ -35,7 +37,7 @@ Page({
   },
   setShowData: function (data) {
       this.setData({
-        list: this.data.data,
+        list: data.articles,
         loading: false,
       })
   },
