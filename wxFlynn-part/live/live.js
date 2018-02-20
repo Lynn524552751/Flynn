@@ -49,7 +49,7 @@ Page({
         }
       }
     },
-    tags: ["斗鱼", "熊猫", "战旗", "CC","B站"],
+    tags: ["斗鱼", "熊猫", "战旗", "CC", "B站"],
     list: [],
     live: {
       data: [],
@@ -224,18 +224,22 @@ Page({
     var index = this.data.activeId
     var len = this.data.live.len
     var max = this.data.live_max
+    var list = []
     if (index != 0 || (index == 0 && len == max)) {
       var data = this.data.live.data
       data.sort((a, b) => {
         return b.sum - a.sum;
       })
       for (var i in data) {
-        if (data[i].sum > 10000) {
-          data[i].sum = (data[i].sum / 10000).toFixed(1) + "W"
+        if (data[i].sum > 1000) {
+          if (data[i].sum > 10000) {
+            data[i].sum = (data[i].sum / 10000).toFixed(1) + "W"
+          }
+          list.push(data[i])
         }
       }
       this.setData({
-        list: this.data.live.data,
+        list: list,
         loading: false,
       })
     }
