@@ -16,7 +16,7 @@
         <view class="item">
           <image class="item-img" src="{{i.img}}" data-src="{{i.img}}" background-size="cover" bindtap="previewImage"></image>
           <view class="item-cover">
-            <text>{{i.sum}}</text> 
+            <text>{{i.online}}</text> 
           </view>         
           <view class="item-info">
             <text> {{i.title}}</text>

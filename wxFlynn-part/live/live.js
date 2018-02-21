@@ -52,7 +52,13 @@ Page({
     tags: ["斗鱼", "熊猫", "战旗", "CC", "B站"],
     list: [],
     live: {
-      data: [],
+      data: {
+        douyu: [],
+        panda: [],
+        zhanqi: [],
+        cc: [],
+        bili: [],
+      },
       len: 0,
     },
     live_max: 5,
@@ -64,7 +70,13 @@ Page({
   updateAllData: function () {
     this.setData({
       live: {
-        data: [],
+        data: {
+          douyu: [],
+          panda: [],
+          zhanqi: [],
+          cc: [],
+          bili: [],
+        },
         len: 0,
       },
       activeId: 0
@@ -80,20 +92,22 @@ Page({
       .then(result => {
         console.log(result)
         if (this.setShowData) {
-          var list = this.data.live.data
+          var list = []
           var data = result.data.data
           for (var i in data) {
             var item = {}
             item.title = data[i].room_name
             item.name = data[i].nickname
-            item.sum = data[i].online
+            item.sum = Number(data[i].online)
             item.img = data[i].room_src
             item.url = data[i].url
             list.push(item)
           }
+          var data = this.data.live.data
+          data.douyu = list
           this.setData({
             live: {
-              data: list,
+              data: data,
               len: this.data.live.len + 1,
             }
           })
@@ -109,20 +123,22 @@ Page({
       .then(result => {
         console.log(result)
         if (this.setShowData) {
-          var list = this.data.live.data
+          var list = []
           var data = result.data.data.items
           for (var i in data) {
             var item = {}
             item.title = data[i].name
             item.name = data[i].userinfo.nickName
-            item.sum = data[i].person_num
+            item.sum = Number(data[i].person_num)
             item.img = data[i].pictures.img
             item.url = data[i].id
             list.push(item)
           }
+          var data = this.data.live.data
+          data.panda = list
           this.setData({
             live: {
-              data: list,
+              data: data,
               len: this.data.live.len + 1,
             }
           })
@@ -138,20 +154,22 @@ Page({
       .then(result => {
         console.log(result)
         if (this.setShowData) {
-          var list = this.data.live.data
+          var list = []
           var data = result.data.lives
           for (var i in data) {
             var item = {}
             item.title = data[i].title
             item.name = data[i].nickname
-            item.sum = data[i].webcc_visitor
+            item.sum = Number(data[i].webcc_visitor)
             item.img = data[i].poster
             item.url = data[i].cuteid
             list.push(item)
           }
+          var data = this.data.live.data
+          data.cc = list
           this.setData({
             live: {
-              data: list,
+              data: data,
               len: this.data.live.len + 1,
             }
           })
@@ -167,20 +185,22 @@ Page({
       .then(result => {
         console.log(result)
         if (this.setShowData) {
-          var list = this.data.live.data
+          var list = []
           var data = result.data.data.rooms
           for (var i in data) {
             var item = {}
             item.title = data[i].title
             item.name = data[i].nickname
-            item.sum = data[i].online
+            item.sum = Number(data[i].online)
             item.img = data[i].spic
             item.url = data[i].url
             list.push(item)
           }
+          var data = this.data.live.data
+          data.zhanqi = list
           this.setData({
             live: {
-              data: list,
+              data: data,
               len: this.data.live.len + 1,
             }
           })
@@ -196,20 +216,22 @@ Page({
       .then(result => {
         console.log(result)
         if (this.setShowData) {
-          var list = this.data.live.data
+          var list = []
           var data = result.data.data
           for (var i in data) {
             var item = {}
             item.title = data[i].title
             item.name = data[i].uname
-            item.sum = data[i].online
+            item.sum = Number(data[i].online)
             item.img = data[i].system_cover
             item.url = data[i].link
             list.push(item)
           }
+          var data = this.data.live.data
+          data.bili = list
           this.setData({
             live: {
-              data: list,
+              data: data,
               len: this.data.live.len + 1,
             }
           })
@@ -224,20 +246,48 @@ Page({
     var index = this.data.activeId
     var len = this.data.live.len
     var max = this.data.live_max
+    var data = []
     var list = []
     if (index != 0 || (index == 0 && len == max)) {
-      var data = this.data.live.data
+      switch (index) {
+        case 0:
+          data = data.concat(this.data.live.data.douyu)
+          data = data.concat(this.data.live.data.panda)
+          data = data.concat(this.data.live.data.zhanqi)
+          data = data.concat(this.data.live.data.cc)
+          data = data.concat(this.data.live.data.bili)
+        case 1:
+          data = data.concat(this.data.live.data.douyu)
+          break;
+        case 2:
+          data = data.concat(this.data.live.data.panda)
+          break;
+        case 3:
+          data = data.concat(this.data.live.data.zhanqi)
+          break;
+        case 4:
+          data = data.concat(this.data.live.data.cc)
+          break;
+        case 5:
+          data = data.concat(this.data.live.data.bili)
+          break;
+        default:
+          break
+      }
       data.sort((a, b) => {
         return b.sum - a.sum;
       })
       for (var i in data) {
         if (data[i].sum > 1000) {
           if (data[i].sum > 10000) {
-            data[i].sum = (data[i].sum / 10000).toFixed(1) + "W"
+            data[i].online = (data[i].sum / 10000).toFixed(1) + "W"
           }
           list.push(data[i])
         }
       }
+      console.log("======================================================")
+      console.log(index)
+      console.log(this.data.live.data)
       this.setData({
         list: list,
         loading: false,
@@ -246,35 +296,10 @@ Page({
   },
   activeTab: function (e) {
     var index = e.currentTarget.dataset.index
-    if (index == this.data.activeId) {
-      this.updateAllData()
-    } else {
-      this.setData({
-        live: {
-          data: [],
-          len: 0,
-        },
-        activeId: index
-      })
-      switch (index) {
-        case 1:
-          this.updateDouyuData()
-          break;
-        case 2:
-          this.updatePandaData()
-          break;
-        case 3:
-          this.updateZhanqiData()
-          break;
-        case 4:
-          this.updateCCData()
-          break;
-        case 5:
-          this.updateBiliData()
-          break;
-        default:
-          break
-      }
-    }
+    index = index == this.data.activeId ? 0 : index
+    this.setData({
+      activeId: index
+    })
+    this.setShowData()
   },
 })
