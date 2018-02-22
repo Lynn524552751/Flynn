@@ -38,7 +38,7 @@ Page({
         }
       },
       bili: {
-        url: 'http://api.live.bilibili.com/room/v1/area/getRoomList',
+        url: 'https://api.live.bilibili.com/room/v1/area/getRoomList',
         data: {
           parent_area_id: 2,
           cate_id: 0,
@@ -103,11 +103,11 @@ Page({
             item.url = data[i].url
             list.push(item)
           }
-          var data = this.data.live.data
-          data.douyu = list
+          var liveData = this.data.live.data
+          liveData.douyu = list
           this.setData({
             live: {
-              data: data,
+              data: liveData,
               len: this.data.live.len + 1,
             }
           })
@@ -134,11 +134,11 @@ Page({
             item.url = data[i].id
             list.push(item)
           }
-          var data = this.data.live.data
-          data.panda = list
+          var liveData = this.data.live.data
+          liveData.panda = list
           this.setData({
             live: {
-              data: data,
+              data: liveData,
               len: this.data.live.len + 1,
             }
           })
@@ -165,11 +165,11 @@ Page({
             item.url = data[i].cuteid
             list.push(item)
           }
-          var data = this.data.live.data
-          data.cc = list
+          var liveData = this.data.live.data
+          liveData.cc = list
           this.setData({
             live: {
-              data: data,
+              data: liveData,
               len: this.data.live.len + 1,
             }
           })
@@ -196,11 +196,11 @@ Page({
             item.url = data[i].url
             list.push(item)
           }
-          var data = this.data.live.data
-          data.zhanqi = list
+          var liveData = this.data.live.data
+          liveData.zhanqi = list
           this.setData({
             live: {
-              data: data,
+              data: liveData,
               len: this.data.live.len + 1,
             }
           })
@@ -227,11 +227,11 @@ Page({
             item.url = data[i].link
             list.push(item)
           }
-          var data = this.data.live.data
-          data.bili = list
+          var liveData = this.data.live.data
+          liveData.bili = list
           this.setData({
             live: {
-              data: data,
+              data: liveData,
               len: this.data.live.len + 1,
             }
           })
@@ -256,6 +256,7 @@ Page({
           data = data.concat(this.data.live.data.zhanqi)
           data = data.concat(this.data.live.data.cc)
           data = data.concat(this.data.live.data.bili)
+          break;
         case 1:
           data = data.concat(this.data.live.data.douyu)
           break;
@@ -285,13 +286,11 @@ Page({
           list.push(data[i])
         }
       }
-      console.log("======================================================")
-      console.log(index)
-      console.log(this.data.live.data)
       this.setData({
         list: list,
         loading: false,
       })
+      wx.hideNavigationBarLoading() //完成停止加载
     }
   },
   activeTab: function (e) {
@@ -301,5 +300,14 @@ Page({
       activeId: index
     })
     this.setShowData()
+  },
+  onPullDownRefresh: function () {
+    wx.showNavigationBarLoading() //在标题栏中显示加载
+    //模拟加载
+    setTimeout(e =>{
+      this.updateAllData()
+      // complete
+      wx.stopPullDownRefresh() //停止下拉刷新
+    }, 500);
   },
 })
