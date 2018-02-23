@@ -222,8 +222,8 @@ Page({
             var item = {}
             item.title = data[i].title
             item.name = data[i].uname
-            item.sum = Number(data[i].online)
-            item.img = data[i].system_cover
+            item.sum = data[i].online
+            item.img = data[i].user_cover
             item.url = data[i].link
             list.push(item)
           }
@@ -282,6 +282,8 @@ Page({
         if (data[i].sum > 1000) {
           if (data[i].sum > 10000) {
             data[i].online = (data[i].sum / 10000).toFixed(1) + "W"
+          }else{
+            data[i].online = data[i].sum
           }
           list.push(data[i])
         }

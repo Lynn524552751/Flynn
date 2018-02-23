@@ -7,14 +7,16 @@ Page({
     name: 'test',
     loading: true,
     api: {
-      url: 'https://www.csdn.net/api/articles?',
+      url: 'https://m.toutiao.com/list/',
       data: {
-        type: "more",
-        category: "home",
-        shown_offset: "1518953888480676"
+        tag: "__all__",
+        ac: "wap",
+        count: 20,
+        format: "json_raw",
+        min_behot_time:0,
+        cp:"5A8B8C3925333E1",
+        as:"A1358AB8AB1C953"
       },
-      cate_id: 2,
-      shortName: "game"
     },
     tags: [],
     list: [],
