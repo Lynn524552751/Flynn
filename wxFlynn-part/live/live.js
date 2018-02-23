@@ -4,7 +4,7 @@ const sysUtil = require('../../utils/sysUtil.js')
 var data_len = []
 Page({
   data: {
-    name: 'test',
+    name: 'live',
     loading: true,
     api: {
       douyu: {
