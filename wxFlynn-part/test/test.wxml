@@ -1,0 +1,25 @@
+<view class="container">
+  <loading wx:if="{{loading}}">正在努力加载中</loading>
+  <template is="douban" data="{{list,tags,activeId}}"/> 
+</view>
+
+<template name="douban">
+  <view class='tab-navs' scroll-x="true">
+    <block wx:for="{{tags}}" wx:for-item="i" wx:key="douban_list">
+        <view class='tab-nav douban-tab {{activeId == index+1 ? "active" : ""}}' bindtap="activeTab" data-index="{{index+1}}">
+            <view class='text-column'> {{i}} </view>
+        </view> 
+    </block>
+  </view>
+  <view class="list" id="test"> 
+    <block wx:for="{{list}}" wx:for-item="i" wx:key="list">
+        <view class="item"> 
+          <image class="item-img" src="{{i.avatar}}" data-src="{{i.avatar}}" background-size="cover" bindtap="previewImage"></image>      
+          <view class="item-info">
+            <text> {{i.title}}</text>
+             <!-- <text> {{i.name}}      {{i.sum}}</text>  -->
+          </view>
+        </view>
+    </block>
+  </view>
+</template>
