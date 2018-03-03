@@ -1,11 +1,12 @@
 # Flynn
 Demo 
 
-* Game
+* Game (小游戏)
 	-- 猜数字
-* Image
+* Image (图像处理)
 	-- 铅笔滤镜
-* wx
+* WordCloud (词云)
+* wx (微信小程序)
 	-- 豆瓣电影
 	-- 炉石直播平台整合
 	-- B站番剧时刻表
