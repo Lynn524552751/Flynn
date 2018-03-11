@@ -4,7 +4,7 @@ const sysUtil = require('../../utils/sysUtil.js')
 var data_len = []
 Page({
   data: {
-    name: 'live',
+    name: 'test',
     loading: true,
     api: {
       douyu: {
@@ -29,12 +29,13 @@ Page({
         }
       },
       cc: {
-        url: 'https://cc.163.com/category/list/',
+        url: 'https://api.cc.163.com/v1/wapcc/liveinfo',
         data: {
           gametype: 1005,
-          format: "json",
-          start: 0,
-          size: 20
+          // format: "json",
+          // start: 0,
+          // size: 20
+          page:1
         }
       },
       bili: {
@@ -155,14 +156,14 @@ Page({
         console.log(result)
         if (this.setShowData) {
           var list = []
-          var data = result.data.lives
+          var data = result.data.data.live_list
           for (var i in data) {
             var item = {}
             item.title = data[i].title
             item.name = data[i].nickname
-            item.sum = Number(data[i].webcc_visitor)
-            item.img = data[i].poster
-            item.url = data[i].cuteid
+            item.sum = Number(data[i].visitor)
+            item.img = data[i].cover
+            item.url = data[i].ccid
             list.push(item)
           }
           var liveData = this.data.live.data
