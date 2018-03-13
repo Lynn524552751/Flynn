@@ -10,7 +10,7 @@ Demo
 * wx (微信小程序)
 	-- 豆瓣电影
 	-- 炉石直播平台整合
-		(douyu,panda,zhanqi,cc,bilibili)
+		(斗鱼，熊猫，战旗，网易CC，哔哩哔哩)
 	-- B站番剧时刻表
 	-- 天气预报
 
