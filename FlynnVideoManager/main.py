@@ -1,11 +1,12 @@
 # encoding:UTF-8
-import sys,os
+import sys,os,io
 import argparse
 import requests,json
 import re
 from bs4 import BeautifulSoup
 from pymongo import *
 
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer,encoding='gb18030')
 class Video(object):
     def __init__(self,id,title,stars):
         self.id = id
