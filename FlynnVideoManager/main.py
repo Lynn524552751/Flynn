@@ -32,9 +32,10 @@ class DB(object):
         self.db["flynn-video"].update({"id":id},{"$set":video},upsert=True)
         print("{} Success !!".format(id))
 
-    def list(self):
-        page = 1
-        per = 20
+    def list(self,page):
+        page = int(page)
+        # page = 1
+        per = 5
         list = self.db["flynn-video"].find().sort([("id",1)]).skip((page-1)*per).limit(per)
         for i in list:
             print(i["id"])
@@ -63,6 +64,9 @@ class DB(object):
         if len(soup.select("h3"))>0:
             title = soup.select("h3")[0].get_text()
             print(title)
+
+    def play(self):
+        os.system("explorer H:\Lynn\girls\葵なつ")
 
 
 def get_html(url):
@@ -99,12 +103,18 @@ if __name__ == '__main__':
         else:
             print("参数格式错误（番号，标题，女忧）")
     elif cmd == "find":
-        id = param[0]
-        db.find(id)
+        if len(param) >= 1:
+            id = param[0]
+            db.find(id)
+        else:
+            print("参数格式错误（番号或者女忧）")
     elif cmd == "delete":
         print("delete")
     elif cmd == "list":
-        db.list()
+        page = param[0] if len(param) == 1 else 1
+        db.list(page)
+    elif cmd == "play":
+        db.play()
     elif cmd == "test":
         db.test()
 
