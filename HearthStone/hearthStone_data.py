@@ -112,16 +112,19 @@ class HearthstoneClass(object):
         return service_list
 
     def getArenaWinrateListByHsreplay(self):
-        INDEX_URL = "https://hsreplay.net/"
+        INDEX_URL = "https://hsreplay.net/analytics/query/player_class_performance_summary/"
         now = datetime.datetime.now().replace(hour=0,minute=0,second=0,microsecond=0)
         list = []
-        html = getHtmlByGetUrl(INDEX_URL)
-        soup = BeautifulSoup(html, "lxml")
-        tile_list = soup.select("#arena a.class-box")
-        for tile in tile_list:
+        tile_list = getJsonByGetUrl(INDEX_URL)
+        tile_list = tile_list["series"]["data"]
+        for key in tile_list:
             tile_obj = {}
-            tile_obj["class_name"] = tile.select(".box-title span")[0].get_text()
-            tile_obj["winrate"] = tile["data-winrate"]
+            tile_obj["class_name"] = key.capitalize()
+            for i in tile_list[key]:
+                if i["game_type"] == 3:
+                    tile_obj["winrate"] = i["win_rate"]
+                    tile_obj["popularity"] = i["popularity"]
+                    break
             tile_obj["date"] = now
             list.append(tile_obj)
         return list
