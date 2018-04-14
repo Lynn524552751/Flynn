@@ -58,6 +58,11 @@ class DB(object):
                 print("=" * 12)
         print("查询共有{}个结果".format(list.count()))
 
+    def delete(self,id):
+        _id = self.db["flynn-video"].find_one({"id": id})["_id"]
+        self.db["flynn-video"].remove(_id)
+        print("{} 删除成功".format(id))
+
     def javmoo(self):
         html = get_html("https://javmoo.net/cn/search/MDS723").content
         soup = BeautifulSoup(html, "lxml")
@@ -109,7 +114,11 @@ if __name__ == '__main__':
         else:
             print("参数格式错误（番号或者女忧）")
     elif cmd == "delete":
-        print("delete")
+        if len(param) >= 1:
+            id = param[0]
+            db.delete(id)
+        else:
+            print("参数格式错误（番号）")
     elif cmd == "list":
         page = param[0] if len(param) == 1 else 1
         db.list(page)
