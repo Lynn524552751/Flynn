@@ -70,7 +70,7 @@ class DB(object):
             title = soup.select("h3")[0].get_text()
             print(title)
 
-    def play(self):
+    def open(self):
         os.system("explorer H:\Lynn\girls\葵なつ")
 
 
