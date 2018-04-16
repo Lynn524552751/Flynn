@@ -45,9 +45,8 @@ class DB(object):
         print("当前第{}页，查询共有{}个结果。".format(page,list.count()))
 
     def find(self,search):
-        if "-" in search:
-            list = self.db["flynn-video"].find({"id":search}).sort([("id",1)])
-        else:
+        list = self.db["flynn-video"].find({"id":re.compile(search)}).sort([("id",1)])
+        if list.count() == 0:
             list = self.db["flynn-video"].find({"stars": re.compile(search)}).sort([("id", 1)])
 
         if list.count() != 0:
@@ -70,8 +69,19 @@ class DB(object):
             title = soup.select("h3")[0].get_text()
             print(title)
 
-    def open(self):
-        os.system("explorer H:\Lynn\girls\葵なつ")
+    def open(self,id):
+        for root, dirs, files in os.walk("H:\Lynn", topdown=False):
+            for name in files:
+                if id.replace("-", "").lower() in name.replace("-", "").lower():
+                    print(os.path.join(root, name))
+                    os.system("explorer {}".format(root))
+                    break
+
+    def test(self):
+        for root, dirs, files in os.walk("H:\Lynn", topdown=False):
+            for name in files:
+                print(os.path.join(root, name))
+                os.system("explorer {}".format(dir))
 
 
 def get_html(url):
@@ -122,8 +132,12 @@ if __name__ == '__main__':
     elif cmd == "list":
         page = param[0] if len(param) == 1 else 1
         db.list(page)
-    elif cmd == "play":
-        db.play()
+    elif cmd == "open":
+        if len(param) >= 1:
+            id = param[0]
+            db.open(id)
+        else:
+            print("参数格式错误（番号）")
     elif cmd == "test":
         db.test()
 
