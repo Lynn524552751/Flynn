@@ -30,37 +30,23 @@ class DB(object):
         video["title"] = title
         video["stars"] = stars
         self.db["flynn-video"].update({"id":id},{"$set":video},upsert=True)
-        print("{} Success !!".format(id))
 
     def list(self,page):
         page = int(page)
         # page = 1
         per = 5
         list = self.db["flynn-video"].find().sort([("id",1)]).skip((page-1)*per).limit(per)
-        for i in list:
-            print(i["id"])
-            print(i["title"])
-            print(i["stars"])
-            print("=" * 12)
-        print("当前第{}页，查询共有{}个结果。".format(page,list.count()))
+        return (list,list.count())
 
     def find(self,search):
         list = self.db["flynn-video"].find({"id":re.compile(search)}).sort([("id",1)])
         if list.count() == 0:
             list = self.db["flynn-video"].find({"stars": re.compile(search)}).sort([("id", 1)])
-
-        if list.count() != 0:
-            for i in list:
-                print(i["id"])
-                print(i["title"])
-                print(i["stars"])
-                print("=" * 12)
-        print("查询共有{}个结果".format(list.count()))
+        return list
 
     def delete(self,id):
         _id = self.db["flynn-video"].find_one({"id": id})["_id"]
         self.db["flynn-video"].remove(_id)
-        print("{} 删除成功".format(id))
 
     def javmoo(self):
         html = get_html("https://javmoo.net/cn/search/MDS723").content
@@ -115,29 +101,52 @@ if __name__ == '__main__':
             title = " ".join(param[1:-1])
             stars = param[-1]
             db.add(id,title,stars)
+            print("{} Success !!".format(id))
         else:
             print("参数格式错误（番号，标题，女忧）")
+
     elif cmd == "find":
         if len(param) >= 1:
             id = param[0]
-            db.find(id)
+            list = db.find(id)
+
+            if list.count() != 0:
+                for i in list:
+                    print(i["id"])
+                    print(i["title"])
+                    print(i["stars"])
+                    print("=" * 12)
+            print("查询共有{}个结果".format(list.count()))
         else:
             print("参数格式错误（番号或者女忧）")
+
     elif cmd == "delete":
         if len(param) >= 1:
             id = param[0]
             db.delete(id)
+            print("{} 删除成功".format(id))
         else:
             print("参数格式错误（番号）")
+
     elif cmd == "list":
         page = param[0] if len(param) == 1 else 1
-        db.list(page)
+        (list,count) = db.list(page)
+
+        if list.count() != 0:
+            for i in list:
+                print(i["id"])
+                print(i["title"])
+                print(i["stars"])
+                print("=" * 12)
+        print("当前第{}页，共有{}个结果".format(page,list.count()))
+
     elif cmd == "open":
         if len(param) >= 1:
             id = param[0]
             db.open(id)
         else:
             print("参数格式错误（番号）")
+
     elif cmd == "test":
         db.test()
 
