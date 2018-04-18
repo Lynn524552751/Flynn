@@ -48,13 +48,6 @@ class DB(object):
         _id = self.db["flynn-video"].find_one({"id": id})["_id"]
         self.db["flynn-video"].remove(_id)
 
-    def javmoo(self):
-        html = get_html("https://javmoo.net/cn/search/MDS723").content
-        soup = BeautifulSoup(html, "lxml")
-        if len(soup.select("h3"))>0:
-            title = soup.select("h3")[0].get_text()
-            print(title)
-
     def open(self,id):
         for root, dirs, files in os.walk("H:\Lynn", topdown=False):
             for name in files:
