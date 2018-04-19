@@ -94,7 +94,7 @@ if __name__ == '__main__':
             title = " ".join(param[1:-1])
             stars = param[-1]
             db.add(id,title,stars)
-            print("{} Success !!".format(id))
+            print("{}  添加成功 !!".format(id))
         else:
             print("参数格式错误（番号，标题，女忧）")
 
