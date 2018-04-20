@@ -1,4 +1,11 @@
-# encoding:UTF-8
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+"""
+__author__ = 'Flynn'
+__time__ = '2018-04-20'
+
+视频管理终端
+"""
 import sys,os,io
 import argparse
 import requests,json
