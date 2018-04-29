@@ -17,6 +17,6 @@ Demo
 * FlynnVideoManager(视频管理终端)
 	* -- 
 * Tampermonkey(油猴脚本)
-	* -- 网站去广告...
+	* -- 种子搜索网站去广告
 
 
