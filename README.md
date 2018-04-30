@@ -15,7 +15,7 @@ Demo
 	* -- B站番剧时刻表
 	* -- 天气预报
 * FlynnVideoManager(视频管理终端)
-	* -- 
+	* -- 视频管理
 * Tampermonkey(油猴脚本)
 	* -- 种子搜索网站去广告
 
