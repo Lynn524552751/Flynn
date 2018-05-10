@@ -35,7 +35,10 @@ function getJSON_GM(url, callback) {
 }
 
 function translator(){
-	console.log("translator");
+	if(card_CN..length>0 && card_EN.length>0){
+		console.log("translator");
+	}
+	
 }
 
 var card_CN = [];
