@@ -37,6 +37,15 @@ function getJSON_GM(url, callback) {
 function translator(){
 	if(card_CN..length>0 && card_EN.length>0){
 		console.log("translator");
+		$("span.card-name").each(function (i,val){
+		if(/^[a-zA-Z]/.test($(val).html())){
+			$.each(cards, function(idx, obj) {
+				if($(val).html() == obj["en_name"]){
+					console.log(obj["en_name"]);
+					$(val).html(obj["name"]);		
+				}
+			});
+		}
 	}
 	
 }
