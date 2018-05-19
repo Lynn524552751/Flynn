@@ -19,7 +19,7 @@ Demo
 * Tampermonkey(油猴脚本)
 	* -- 种子搜索网站去广告
 	* -- 炉石传说卡牌翻译
-	* -- Ren py
+	* -- Ren`py
 	
 
 
